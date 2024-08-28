@@ -28,7 +28,8 @@ async function initialize() {
         }
 
         const shortId = customBackHalf ? customBackHalf : nanoid(6);
-        const shortUrl = `${req.protocol}://${req.get('host')}/${shortId}`;
+        const shortUrl = `https://url.brt.ar/${shortId}`;
+
 
         try {
             const collection = db.collection('urls');
