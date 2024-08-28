@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 5px 0;
+        }
+        button {
+            padding: 10px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <form id="urlForm">
+            <input type="text" id="longUrl" placeholder="Enter long URL" required>
+            <input type="text" id="customBackHalf" placeholder="Custom back half (optional)">
+            <button type="submit">Shorten URL</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('urlForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const longUrl = document.getElementById('longUrl').value;
+            const customBackHalf = document.getElementById('customBackHalf').value;
+
+            const response = await fetch('/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ longUrl, customBackHalf })
+            });
+            const result = await response.json();
+            document.getElementById('result').innerHTML = result.shortUrl ? `Shortened URL: <a href="${result.shortUrl}" target="_blank">${result.shortUrl}</a>` : `Error: ${result.error}`;
+        });
+    </script>
+</body>
+</html>
